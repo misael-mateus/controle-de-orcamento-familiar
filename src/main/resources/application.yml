@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/orcamento_familiar_db?createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC
+    username: root
+    password: admin
+
+  jpa:
+    hibernate.ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
+
+  application:
+    name: aplicacao_para_orcamento_familiar
