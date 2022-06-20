@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @SpringBootTest
-public class ServiceTest {
+public class ReceitaServiceTest {
 
     @Autowired
     private ReceitaService service;
@@ -22,10 +22,14 @@ public class ServiceTest {
         receitaDTO.setData(LocalDate.now());
         receitaDTO.setDescricao("conta de agua");
         receitaDTO.setValor(new BigDecimal("100.00"));
-        ReceitaDTO dto = service.novaReceita(receitaDTO);
+        this.service.deletarReceita(receitaDTO);
+        ReceitaDTO dto = this.service.novaReceita(receitaDTO);
+
         Assertions.assertNotNull(dto.getData());
         Assertions.assertNotNull(dto.getValor());
         Assertions.assertNotNull(dto.getDescricao());
+
+        this.service.deletarReceita(receitaDTO);
     }
 
     @Test
@@ -34,8 +38,11 @@ public class ServiceTest {
         receitaDTO.setData(LocalDate.now());
         receitaDTO.setDescricao("conta de luz");
         receitaDTO.setValor(new BigDecimal("150.00"));
-        service.novaReceita(receitaDTO);
+        this.service.deletarReceita(receitaDTO);
+        this.service.novaReceita(receitaDTO);
 
-        Assertions.assertThrows(ReceitaDuplicadaException.class,() -> service.novaReceita(receitaDTO));
+        Assertions.assertThrows(ReceitaDuplicadaException.class,() -> this.service.novaReceita(receitaDTO));
+
+        this.service.deletarReceita(receitaDTO);
     }
 }

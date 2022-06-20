@@ -34,7 +34,7 @@ public class ReceitaService {
                 .map(receita -> mapper.map(receita,ReceitaDTO.class));
     }
 
-    public Long buscarId(ReceitaDTO receitaCadastrada) {
+    public Long buscarOIdDaReceita(ReceitaDTO receitaCadastrada) {
         List<Receita> receitas = this.repository.findAll();
 
         for (Receita receita : receitas) {
@@ -42,6 +42,23 @@ public class ReceitaService {
                 return receita.getId();
         }
         return 0L;
+    }
+
+    public ReceitaDTO buscarPorId(Long id){
+        return mapper.map(this.repository.findById(id),ReceitaDTO.class);
+    }
+
+    public void deletarPorId(Long id){
+        this.repository.deleteById(id);
+    }
+
+    public void deletarReceita(ReceitaDTO receitaDTO) {
+        List<Receita> receitas = this.repository.findAll();
+        for (Receita receita:receitas) {
+            if (receita.getDescricao().equals(receitaDTO.getDescricao())){
+                deletarPorId(receita.getId());
+            }
+        }
     }
 
     private boolean verificaDuplicidade(Receita receitaAComparar) {
@@ -58,4 +75,8 @@ public class ReceitaService {
         return receita.getData().getMonth().equals(receitaAComparar.getData().getMonth());
     }
 
+    public ReceitaDTO atualizarPorId(Long id, ReceitaDTO dto) {
+        deletarPorId(id);
+        return novaReceita(dto);
+    }
 }

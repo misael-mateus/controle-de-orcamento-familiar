@@ -39,4 +39,21 @@ public class ReceitaController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ReceitaDTO> buscarPorId(@PathVariable Long id){
+        ReceitaDTO dto = this.service.buscarPorId(id);
+        return ResponseEntity.ok(dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ReceitaDTO> deletarPorId(@PathVariable Long id){
+        this.service.deletarPorId(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ReceitaDTO> atualizarPorId(@PathVariable Long id,@RequestBody ReceitaDTO dto){
+        ReceitaDTO receitaDTO = this.service.atualizarPorId(id,dto);
+        return ResponseEntity.ok(receitaDTO);
+    }
 }
